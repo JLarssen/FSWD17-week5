@@ -1,0 +1,23 @@
+html {
+    font-family: 'Kanit', sans-serif;
+}
+
+.width200 {
+    width: 200px;
+}
+
+.model--link {
+    font-weight: 600;
+    text-decoration: underline;
+    color: blue;
+}
+  
+  .cartypes{
+    background-color:#dce29c;
+    border: 2px ridge lightgray;
+  }
+  
+  p {
+    font-weight: 600;
+  }
+  
