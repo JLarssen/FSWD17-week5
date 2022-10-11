@@ -34,9 +34,9 @@ class Vehicles {
                     <p class="card-text">Dieser ${this.zylinderanzahl}-Zylindermotor hat eine Leistung von${lz}${this.motorleistung} .</p>
                     <p class="card-text"> Baujahr: ${this.productionyear}, Schadstoffklasse: ${this.euroklasse}, Antriebsart: ${this.motortyp}</p>
                     <p class="card-text">Kilometerstand: ${this.km}</p>
-                    <p><button type="button" id="preis" class="btn btn-warning">Calculate price</button>
-                    <button type="button" id="close" class="btn btn-primary">Close</button></p>
-                </div>';
+                    <!--  <p><button type="button" id="preis" class="btn btn-warning">Calculate price</button>
+                    <button type="button" id="close" class="btn btn-primary">Close</button></p> -->
+                </div>
             </div>`;
     }
 } // vehicle-class
@@ -101,24 +101,20 @@ function showPanel(paneldata, arr_kfz) {
         }
     });
     // alle Modelle wurden soeben generiert
-    function printVehicleButtons(cardExtraInfo) {
-        return `<p><button type="button" id="preis" class="btn btn-warning">Calculate price</button>
-            <button type="button" id="close" class="btn btn-primary">Close</button>`;
-    }
-    let link_show = document.querySelectorAll(".list-group-item");
-    console.log("alle links ", link_show);
-    link_show.forEach((value, i) => {
-        link_show[i].addEventListener("click", function () {
-            console.log(" beim event-listener reg   ", value, "  und aus dem kfz_arr mit i geholt:    ", arr_kfz[i].modell);
-            let returnInfo = document.getElementById("info");
-            console.log("das info element:  ", returnInfo);
-            returnInfo.innerHTML = arr_kfz[i].printVehicleInfo();
-            printVehicleButtons(returnInfo);
-        });
-    });
+    /* function printVehicleButtons () {
+         let cardInfo = document.getElementsByClassName("card-body");    // ok cause only one card is shown on that page
+         cardInfo[0].innerHTML += `<p><button type="button" id="preis" class="btn btn-warning">Calculate price</button>
+         <button type="button" id="close" class="btn btn-primary">Close</button>`;
+     };
+ 
+     function calculate(kfz) {
+         console.log(" das kfz-objekt im calc-func", kfz);
+         let price = "766€";
+         let cardInfo = document.getElementsByClassName("card-body");
+         cardInfo[0].innerHTML +=`Der Mietpreis pro Woche betr&auml;gt für Sie als neuer Kunde ${price}`
+     };  */
     return resultElement;
 } // end show-panel mit/ohne Zusatzinfo aus Truck oder Motorcycle
-const lz = `&nbsp`;
 //  performing scriptcode from here:
 //  Erzeugung von 2 Vehicles, 1 Motorbikes, 1 Trucks Objekt mit jeweils 3 Untermodellen für das hero-Panel 
 let kfz1 = new Vehicles(undefined, 'Limousine', 'Audi', 'RS4-Avant', 6, 'Benzin', '145 PS', '2015', "E4", 116000, 5, "img/Audi-RS4-Avant.jpg");
@@ -130,8 +126,43 @@ let kfz6 = new Motorbikes(undefined, 'Motorcycle', 'Harley Davidson', 'Road King
 let kfz7 = new Motorbikes(undefined, 'Motorcycle', 'Yamaha', 'RD 350', 2, 'Benzin', '50 PS', '1987', "E3", 134000, 1, "img/Yamaha-RD350.jpg", false, false);
 let kfz8 = new Motorbikes(undefined, 'Motorcycle', 'Hercules', 'W2000', 2, 'Wankelmotor', '27 PS', '1987', "E3", 151000, 1, "img/Hercules-W2000.png", false, false);
 let kfz9 = new Trucks(undefined, 'Truck', 'MAN', 'TGA', 6, 'Diesel', '310 PS', '2007', "E3", 195000, 3, "img/MAN-TGA.jpg", '9100 kg', '110 Kmh');
+const lz = `&nbsp`;
 // for the 4 different types the indexes 0-3 are assigned to the panel-listgroup with id+suffix index
 const arr_panel_img = [["limousine", "img/Audi-RS4-Avant.jpg"], ["minivan", "img/Ford_ETransit.jpg"], ["motorbike", "img/Yamaha-RD350.jpg"], ["truck", "img/MAN-TGA.jpg"]];
 const arr_kfz = [kfz1, kfz2, kfz3, kfz4, kfz5, kfz6, kfz7, kfz8, kfz9];
 console.log(arr_panel_img);
 showPanel(arr_panel_img, arr_kfz);
+let link_show = document.querySelectorAll(".list-group-item");
+let returnInfo = document.getElementById("info");
+link_show.forEach((value, i) => {
+    link_show[i].addEventListener("click", function () {
+        console.log(" beim event-listener reg   ", value, "  und aus dem kfz_arr mit i geholt:    ", arr_kfz[i].modell);
+        returnInfo.innerHTML = arr_kfz[i].printVehicleInfo();
+        printVehicleButtons();
+        document.getElementById("preis").addEventListener("click", () => {
+            calculate(arr_kfz[i]);
+        });
+        document.getElementById("close").addEventListener("click", () => { returnInfo.innerHTML = closeBtn(); });
+    });
+});
+function closeBtn() {
+    let returnInfo = document.getElementById("info");
+    //document.getElementById("close").addEventListener("click", () => {
+    console.log("das info element:  ", returnInfo);
+    //returnInfo.innerHTML = ``;
+    return ``;
+}
+;
+function printVehicleButtons() {
+    let cardInfo = document.getElementsByClassName("card-body"); // ok cause only one card is shown on that page
+    cardInfo[0].innerHTML += `<p><button type="button" id="preis" class="btn btn-warning">Calculate price</button>
+            <button type="button" id="close" class="btn btn-primary">Close</button>`;
+}
+;
+function calculate(kfz) {
+    console.log(" das kfz-objekt im calc-func", kfz);
+    let price = "766€";
+    let cardInfo = document.getElementsByClassName("card-body");
+    cardInfo[0].innerHTML += `Der Mietpreis pro Woche betr&auml;gt für Sie als neuer Kunde ${price}`;
+}
+;
